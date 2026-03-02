@@ -12,3 +12,8 @@ output:
 ## Project thoughts
 
 The research question I will be studying is: “How do education levels affect voting participation?” My hypothesis is that higher education levels lead to greater voting participation due to more knowledge on politics and greater access to important skills. The explanatory variable in this study is education levels which can be measured by different levels ranging from high school diploma to a doctorate degree. The outcome variable is voting participation which can be measured by whether or not individuals voted in recent elections. An observed pattern that would support my hypothesis is that higher education levels correlate with greater voter turnout. A pattern that would disprove my hypothesis would be a correlation between high education and low voter turnout.
+
+```{r}
+library(tidyverse)
+fpdata <- read_csv("~/Downloads/anes_timeseries_2024_csv_20250808/fpdata.csv")
+```

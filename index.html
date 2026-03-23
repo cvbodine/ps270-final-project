@@ -116,7 +116,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.30/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.30/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1544,15 +1544,69 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-<h2 id="project-thoughts">Project thoughts</h2>
-<p>The research question I will be studying is: “How do education levels affect voting participation?” My hypothesis is that higher education levels lead to greater voting participation due to more knowledge on politics and greater access to important skills. The explanatory variable in this study is education levels which can be measured by different levels ranging from high school diploma to a doctorate degree. The outcome variable is voting participation which can be measured by whether or not individuals voted in recent elections. An observed pattern that would support my hypothesis is that higher education levels correlate with greater voter turnout. A pattern that would disprove my hypothesis would be a correlation between high education and low voter turnout.</p>
+<h2 id="research-question-and-loading-the-data">Research question and loading the data</h2>
+<p>The research question I will be studying is: “How do education levels affect voting participation?” I will be using the dataset: American National Election Studies (ANES) 2024 Report which surveys people before and after the presidential election. My hypothesis is that higher education levels lead to greater voting participation due to more knowledge on politics and greater access to important skills. The explanatory variable in this study is education levels which can be measured by different levels ranging from high school diploma to a doctorate degree. The outcome variable is voting participation which can be measured by whether or not individuals voted in recent elections. An observed pattern that would support my hypothesis is that higher education levels correlate with greater voter turnout. A pattern that would disprove my hypothesis would be a correlation between high education and low voter turnout.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
 <span><span class='va'>fpdata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"~/Downloads/anes_timeseries_2024_csv_20250808/fpdata.csv"</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h2 id="milestone-3">Milestone 3</h2>
+<p>Cleaning the dataset and making a table of the education and voting variables:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>fpdata</span> <span class='op'>&lt;-</span> <span class='va'>fpdata</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span>education <span class='op'>=</span> <span class='va'>V241465x</span>, voted <span class='op'>=</span> <span class='va'>V242095x</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span></span>
+<span>    education <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>education</span> <span class='op'>&lt;</span> <span class='fl'>0</span>, <span class='cn'>NA</span>, <span class='va'>education</span><span class='op'>)</span>, </span>
+<span>         voted <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>voted</span> <span class='op'>&lt;</span> <span class='fl'>0</span>, <span class='cn'>NA</span>, <span class='va'>voted</span><span class='op'>)</span>,</span>
+<span>         education <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>education</span>,</span>
+<span>                            levels <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span>, </span>
+<span>                            labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span></span>
+<span>                              <span class='st'>"Less than high school"</span>,</span>
+<span>                              <span class='st'>"High school credential"</span>, </span>
+<span>                              <span class='st'>"Some college, no bachelor's"</span>,</span>
+<span>                              <span class='st'>"Bachelor's degree"</span>,</span>
+<span>                              <span class='st'>"Graduate degree"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span>    <span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/drop_na.html'>drop_na</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='va'>table_summary</span> <span class='op'>&lt;-</span> <span class='va'>fpdata</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>education</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span></span>
+<span>    Total <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span>,</span>
+<span>    Voted <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>voted</span> <span class='op'>==</span><span class='fl'>1</span><span class='op'>)</span>,</span>
+<span>    Not_Voted <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>voted</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span>,</span>
+<span>    Turnout_Pct <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>Voted</span> <span class='op'>/</span> <span class='va'>Total</span> <span class='op'>*</span> <span class='fl'>100</span>, <span class='fl'>1</span><span class='op'>)</span></span>
+<span>  <span class='op'>)</span></span>
+<span> <span class='va'>table_summary</span> </span></code></pre>
+</div>
+<pre><code># A tibble: 5 × 5
+  education                   Total Voted Not_Voted Turnout_Pct
+  &lt;fct&gt;                       &lt;int&gt; &lt;int&gt;     &lt;int&gt;       &lt;dbl&gt;
+1 Less than high school         236   127       109        53.8
+2 High school credential        850   601       249        70.7
+3 Some college, no bachelor&#39;s  1555  1277       278        82.1
+4 Bachelor&#39;s degree            1274  1153       121        90.5
+5 Graduate degree              1015   943        72        92.9</code></pre>
+</div>
+<p>Bar plot data visualization:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>table_summary</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>education</span>, </span>
+<span>                       y <span class='op'>=</span> <span class='va'>Turnout_Pct</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
+<span>    title <span class='op'>=</span> <span class='st'>"Education Levels and Voter Turnout"</span>,</span>
+<span>    x <span class='op'>=</span> <span class='st'>"Education Level"</span>,</span>
+<span>    y <span class='op'>=</span> <span class='st'>"Percent of Population that Voted"</span></span>
+<span>  <span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" alt="" width="624" /></p>
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

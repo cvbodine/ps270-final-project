@@ -9,11 +9,58 @@ output:
 
 
 
-## Project thoughts
+## Research question and loading the data
 
-The research question I will be studying is: “How do education levels affect voting participation?” My hypothesis is that higher education levels lead to greater voting participation due to more knowledge on politics and greater access to important skills. The explanatory variable in this study is education levels which can be measured by different levels ranging from high school diploma to a doctorate degree. The outcome variable is voting participation which can be measured by whether or not individuals voted in recent elections. An observed pattern that would support my hypothesis is that higher education levels correlate with greater voter turnout. A pattern that would disprove my hypothesis would be a correlation between high education and low voter turnout.
+The research question I will be studying is: “How do education levels affect voting participation?” I will be using the dataset: American National Election Studies (ANES) 2024 Report which surveys people before and after the presidential election. My hypothesis is that higher education levels lead to greater voting participation due to more knowledge on politics and greater access to important skills. The explanatory variable in this study is education levels which can be measured by different levels ranging from high school diploma to a doctorate degree. The outcome variable is voting participation which can be measured by whether or not individuals voted in recent elections. An observed pattern that would support my hypothesis is that higher education levels correlate with greater voter turnout. A pattern that would disprove my hypothesis would be a correlation between high education and low voter turnout.
 
 ```{r}
 library(tidyverse)
 fpdata <- read_csv("~/Downloads/anes_timeseries_2024_csv_20250808/fpdata.csv")
+```
+## Milestone 3 
+
+Cleaning the dataset and making a table of the education and voting variables:
+
+```{r}
+fpdata <- fpdata |>
+  select(education = V241465x, voted = V242095x) |>
+  mutate(
+    education = ifelse(education < 0, NA, education), 
+         voted = ifelse(voted < 0, NA, voted),
+         education = factor(education,
+                            levels = 1:5, 
+                            labels = c(
+                              "Less than high school",
+                              "High school credential", 
+                              "Some college, no bachelor's",
+                              "Bachelor's degree",
+                              "Graduate degree"))
+    ) |>
+  drop_na()
+table_summary <- fpdata |>
+  group_by(education) |>
+  summarize(
+    Total = n(),
+    Voted = sum(voted ==1),
+    Not_Voted = sum(voted == 0),
+    Turnout_Pct = round(Voted / Total * 100, 1)
+  )
+ table_summary 
+```
+
+
+
+Bar plot data visualization:
+
+```{r}
+table_summary |>
+  ggplot(mapping = aes(x = education, 
+                       y = Turnout_Pct)) + 
+  geom_col() +
+  labs(
+    title = "Education Levels and Voter Turnout",
+    x = "Education Level",
+    y = "Percent of Population that Voted"
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```

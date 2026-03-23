@@ -1593,7 +1593,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>Bar plot data visualization:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>table_summary</span> <span class='op'>|&gt;</span></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>graph</span> <span class='op'>&lt;-</span> <span class='va'>table_summary</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>education</span>, </span>
 <span>                       y <span class='op'>=</span> <span class='va'>Turnout_Pct</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> </span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
@@ -1602,22 +1602,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>    x <span class='op'>=</span> <span class='st'>"Education Level"</span>,</span>
 <span>    y <span class='op'>=</span> <span class='st'>"Percent of Population that Voted"</span></span>
 <span>  <span class='op'>)</span> <span class='op'>+</span></span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='va'>graph</span></span></code></pre>
 </div>
-<img src="index_files/figure-html5/unnamed-chunk-3-1.png" alt="" width="624" />
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>table_summary</span></span></code></pre>
+<p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" alt="" width="624" /></p>
 </div>
-<pre><code># A tibble: 5 × 5
-  education                   Total Voted Not_Voted Turnout_Pct
-  &lt;fct&gt;                       &lt;int&gt; &lt;int&gt;     &lt;int&gt;       &lt;dbl&gt;
-1 Less than high school         236   127       109        53.8
-2 High school credential        850   601       249        70.7
-3 Some college, no bachelor&#39;s  1555  1277       278        82.1
-4 Bachelor&#39;s degree            1274  1153       121        90.5
-5 Graduate degree              1015   943        72        92.9</code></pre>
-</div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

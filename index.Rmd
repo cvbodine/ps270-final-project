@@ -17,7 +17,7 @@ The research question I will be studying is: “How do education levels affect v
 library(tidyverse)
 fpdata <- read_csv("~/Downloads/anes_timeseries_2024_csv_20250808/fpdata.csv")
 ```
-## Milestone 3 
+## Organizing and Visuals 
 
 Cleaning the dataset and making a table of the education and voting variables:
 
@@ -45,7 +45,10 @@ table_summary <- fpdata |>
     Not_Voted = sum(voted == 0),
     Turnout_Pct = round(Voted / Total * 100, 1)
   )
- table_summary 
+
+table_summary |>
+  knitr::kable(col.names = c ("Education", "Total", "Voted", "Didn't Vote", "Turnout Percent"))
+
 ```
 
 
@@ -60,8 +63,13 @@ graph <- table_summary |>
   labs(
     title = "Education Levels and Voter Turnout",
     x = "Education Level",
-    y = "Percent of Population that Voted"
+    y = "Percent that Voted"
   ) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 graph
 ```
+
+
+## Analysis
+
+The table and bar graph show a positive correlation between education levels and voter turnout. As survey respondents education level increases, so does the percent of that population that voted. This supports my hypothesis that higher education levels lead to greater voting participation. 

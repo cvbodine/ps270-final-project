@@ -1552,7 +1552,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span><span class='va'>fpdata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"~/Downloads/anes_timeseries_2024_csv_20250808/fpdata.csv"</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
-<h2 id="milestone-3">Milestone 3</h2>
+<h2 id="organizing-and-visuals">Organizing and Visuals</h2>
 <p>Cleaning the dataset and making a table of the education and voting variables:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -1579,16 +1579,65 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>    Not_Voted <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>voted</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span>,</span>
 <span>    Turnout_Pct <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>Voted</span> <span class='op'>/</span> <span class='va'>Total</span> <span class='op'>*</span> <span class='fl'>100</span>, <span class='fl'>1</span><span class='op'>)</span></span>
 <span>  <span class='op'>)</span></span>
-<span> <span class='va'>table_summary</span> </span></code></pre>
+<span></span>
+<span><span class='va'>table_summary</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span>col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span> <span class='op'>(</span><span class='st'>"Education"</span>, <span class='st'>"Total"</span>, <span class='st'>"Voted"</span>, <span class='st'>"Didn't Vote"</span>, <span class='st'>"Turnout Percent"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
-<pre><code># A tibble: 5 × 5
-  education                   Total Voted Not_Voted Turnout_Pct
-  &lt;fct&gt;                       &lt;int&gt; &lt;int&gt;     &lt;int&gt;       &lt;dbl&gt;
-1 Less than high school         236   127       109        53.8
-2 High school credential        850   601       249        70.7
-3 Some college, no bachelor&#39;s  1555  1277       278        82.1
-4 Bachelor&#39;s degree            1274  1153       121        90.5
-5 Graduate degree              1015   943        72        92.9</code></pre>
+<table>
+<colgroup>
+<col style="width: 41%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 17%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Education</th>
+<th style="text-align: right;">Total</th>
+<th style="text-align: right;">Voted</th>
+<th style="text-align: right;">Didn’t Vote</th>
+<th style="text-align: right;">Turnout Percent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Less than high school</td>
+<td style="text-align: right;">236</td>
+<td style="text-align: right;">127</td>
+<td style="text-align: right;">109</td>
+<td style="text-align: right;">53.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">High school credential</td>
+<td style="text-align: right;">850</td>
+<td style="text-align: right;">601</td>
+<td style="text-align: right;">249</td>
+<td style="text-align: right;">70.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Some college, no bachelor’s</td>
+<td style="text-align: right;">1555</td>
+<td style="text-align: right;">1277</td>
+<td style="text-align: right;">278</td>
+<td style="text-align: right;">82.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bachelor’s degree</td>
+<td style="text-align: right;">1274</td>
+<td style="text-align: right;">1153</td>
+<td style="text-align: right;">121</td>
+<td style="text-align: right;">90.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Graduate degree</td>
+<td style="text-align: right;">1015</td>
+<td style="text-align: right;">943</td>
+<td style="text-align: right;">72</td>
+<td style="text-align: right;">92.9</td>
+</tr>
+</tbody>
+</table>
 </div>
 <p>Bar plot data visualization:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1600,14 +1649,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
 <span>    title <span class='op'>=</span> <span class='st'>"Education Levels and Voter Turnout"</span>,</span>
 <span>    x <span class='op'>=</span> <span class='st'>"Education Level"</span>,</span>
-<span>    y <span class='op'>=</span> <span class='st'>"Percent of Population that Voted"</span></span>
+<span>    y <span class='op'>=</span> <span class='st'>"Percent that Voted"</span></span>
 <span>  <span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.text.x <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_text</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fl'>45</span>, hjust <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span>
 <span><span class='va'>graph</span></span></code></pre>
 </div>
 <p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" alt="" width="624" /></p>
 </div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h2 id="analysis">Analysis</h2>
+<p>The table and bar graph show a positive correlation between education levels and voter turnout. As survey respondents education level increases, so does the percent of that population that voted. This supports my hypothesis that higher education levels lead to greater voting participation.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

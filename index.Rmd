@@ -1,7 +1,7 @@
 ---
-title: "PS270 Final Project"
+title: "Education Levels and Voter Turnout"
 author: "Clare Bodine"
-description: "My final project"
+description: "PS 270 Final Project"
 output:
   distill::distill_article:
     self_contained: false

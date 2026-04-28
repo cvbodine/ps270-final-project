@@ -38,7 +38,7 @@ edu_voting <- edu_voting |>
                               "Graduate degree"))
     ) |>
   drop_na()
-voting_summary <- fpdata |>
+voting_summary <- edu_voting |>
   group_by(education) |>
   summarize(
     Total = n(),

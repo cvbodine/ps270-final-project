@@ -9,20 +9,21 @@ output:
 
 
 
-## Research question and loading the data
+## Introduction
 
-The research question I will be studying is: “How do education levels affect voting participation?” I will be using the dataset: American National Election Studies (ANES) 2024 Report which surveys people before and after the presidential election. My hypothesis is that higher education levels lead to greater voting participation due to more knowledge on politics and greater access to important skills. The explanatory variable in this study is education levels which can be measured by different levels ranging from high school diploma to a doctorate degree. The outcome variable is voting participation which can be measured by whether or not individuals voted in recent elections. An observed pattern that would support my hypothesis is that higher education levels correlate with greater voter turnout. A pattern that would disprove my hypothesis would be a correlation between high education and low voter turnout.
+The research question I am studying is: “How do education levels affect voting participation?” I will be using the dataset: American National Election Studies (ANES) 2024 Report which collected data from respondents before and after the presidential election. My hypothesis is that higher education levels lead to greater voting participation due to more knowledge on politics and greater access to important skills. The explanatory variable in this study is education levels which can be measured by different levels ranging from high school diploma to a doctorate degree. The outcome variable is voting participation which can be measured by whether or not individuals voted in recent elections. An observed pattern that would support my hypothesis is that higher education levels correlate with greater voter turnout. A pattern that would disprove my hypothesis would be a correlation between high education and low voter turnout. 
 
 ```{r}
 library(tidyverse)
-fpdata <- read_csv("~/Downloads/anes_timeseries_2024_csv_20250808/fpdata.csv")
+edu_voting <- read_csv("~/Downloads/anes_timeseries_2024_csv_20250808/fpdata.csv")
 ```
-## Organizing and Visuals 
+
+## Data
 
 Cleaning the dataset and making a table of the education and voting variables:
 
 ```{r}
-fpdata <- fpdata |>
+edu_voting <- edu_voting |>
   select(education = V241465x, voted = V242095x) |>
   mutate(
     education = ifelse(education < 0, NA, education), 
@@ -37,16 +38,16 @@ fpdata <- fpdata |>
                               "Graduate degree"))
     ) |>
   drop_na()
-table_summary <- fpdata |>
+voting_summary <- fpdata |>
   group_by(education) |>
   summarize(
     Total = n(),
-    Voted = sum(voted ==1),
+    Voted = sum(voted == 1),
     Not_Voted = sum(voted == 0),
     Turnout_Pct = round(Voted / Total * 100, 1)
   )
 
-table_summary |>
+voting_summary |>
   knitr::kable(col.names = c ("Education", "Total", "Voted", "Didn't Vote", "Turnout Percent"))
 
 ```
@@ -56,7 +57,7 @@ table_summary |>
 Bar plot data visualization:
 
 ```{r}
-graph <- table_summary |>
+graph <- voting_summary |>
   ggplot(mapping = aes(x = education, 
                        y = Turnout_Pct)) + 
   geom_col() +
@@ -68,8 +69,30 @@ graph <- table_summary |>
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 graph
 ```
-
-
-## Analysis
-
 The table and bar graph show a positive correlation between education levels and voter turnout. As survey respondents education level increases, so does the percent of that population that voted. This supports my hypothesis that higher education levels lead to greater voting participation. 
+
+
+## Results 
+
+```{r}
+edu.reg <- lm(voted ~ as.numeric(education), data = edu_voting)
+summary(edu.reg)
+```
+```{r}
+library(broom)
+tidy(edu.reg) |>
+  knitr::kable(digits = 3)
+```
+
+```{r}
+var_labels <- c("as.numeric(education)" = "Education Effect")
+modelsummary::modelsummary(
+  list(edu.reg),
+  coef_map = var_labels,
+  gof_mop = c("nobs", "r.squared", "adj.r.squared"))
+```
+
+
+## Conclusion
+
+

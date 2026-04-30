@@ -1545,21 +1545,38 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <h2 id="introduction">Introduction</h2>
-<p>The research question of this study is: <strong>“How do education levels affect voting participation?”</strong> Studying the relationship between education and voting is incredibly important because it helps us to understand political participation and whose opinions are truly reflected in democracy. Education often provides students with the skills and knowledge needed to register and participate, so this analysis will help determine if the voting process is truly representative of our entire population. Significant discrepancies across education levels could insinuate inequality and misrepresentation.</p>
-<p>My <strong>hypothesis</strong> is that <strong>higher education levels lead to greater voting participation.</strong> This is likely a result of great access to civic skills and more political knowledge. The explanatory/independent variable in this study is education level which can be measured by different levels ranging from high school diploma to a doctorate degree. The outcome/dependent variable is voting participation which can be measured by whether or not individuals voted in recent elections, and turnout percentages can highlight possible correlation. An observed pattern that would support my hypothesis is that higher education levels correlate with greater voter turnout. A pattern that would disprove my hypothesis would be a correlation between high education and low voter turnout.</p>
+<p>The research question I will be examining is: <strong>“How do education levels affect voting participation?”</strong> Studying the relationship between education and voting is incredibly important because it helps us to understand political participation and whose opinions are truly reflected in democracy. Education often provides students with the skills and knowledge needed to register and participate, so this analysis could help determine if the voting process is truly representative of our entire population. Significant discrepancies across education levels could insinuate inequality and misrepresentation.</p>
+<p>My <strong>hypothesis</strong> is that <strong>higher education levels are positively correlated with voting participation.</strong> This is likely a result of greater access to civic skills and more political knowledge within the education system.</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <h2 id="data">Data</h2>
-<p>My analysis utilizes the dataset: American National Election Studies (ANES) 2024 Report, which collected data from respondents before and after the presidential election through surveys. The analysis of this study specifically focuses on the subset of demographics and voting behavior. After removing non-responses to my desired variables, the final dataset consists of 4,930 observations.</p>
-<p>Utilizing code to clean and organize the data, I was able to assign the raw numbers to specific variables. The independent variable, Education Level, is an ordinal variable and I organized this numerically on a scale 1-5, with 1 as “Less than high school” and 5 as “Graduate Degree.” The dependent variable, Voting Participation, expresses whether or not the respondent voted in the 2024 presidential election. I organized this as a binary variable so 1 represents “voted” and 0 represents if the respondent did not vote.</p>
+<p>My analysis utilizes the dataset: <strong>American National Election Studies (ANES) 2024 Report</strong>, which collected data from respondents through surveys before and after the presidential election. I filtered the data to focus specifically on education demographics and voting behavior. After assigning the raw numbers to my specific variables and removing invalid responses, the final dataset consisted of 4930 responses, providing a credible sample.</p>
+<p>The <strong>independent variable</strong>, <strong>Education Level</strong>, measures the degree of education a respondent has completed. This is treated as an ordinal variable and is categorized into five distinct levels: (1) Less than high school, (2) High school credential, (3) Some college, no bachelor’s, (4) Bachelor’s degree, and (5) Graduate degree.</p>
+<p>The <strong>dependent/outcome variable</strong>, <strong>Voting Participation</strong>, measures whether or not a respondent voted in the 2024 presidential election. This is treated as a binary variable, where (1) represents a respondent who voted and (0) represents a respondent who did not vote. The bar plot below shows the distribution of this outcome variable across the 4930 respondents.</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" alt="" width="624" /></p>
+<pre><code># A tibble: 4,930 × 2
+   education                   voted
+   &lt;fct&gt;                       &lt;dbl&gt;
+ 1 Bachelor&#39;s degree               1
+ 2 Some college, no bachelor&#39;s     0
+ 3 Some college, no bachelor&#39;s     1
+ 4 Some college, no bachelor&#39;s     0
+ 5 Graduate degree                 1
+ 6 Some college, no bachelor&#39;s     0
+ 7 Some college, no bachelor&#39;s     1
+ 8 Some college, no bachelor&#39;s     0
+ 9 High school credential          0
+10 High school credential          0
+# ℹ 4,920 more rows</code></pre>
 </div>
-<p>The summary table below highlights the specific turnout rates, showing a clear increase in each level of education starting from 53.8% for those with less than a high school education to 92.7% for those with a graduate degree.</p>
+<p>To determine criteria for supporting or rejecting my hypothesis, I will compare voter turnout percentages within each education level. Data that shows an increase in turnout percentage in line with an increase in education level will support my hypothesis. Data that is inconsistent across each education level without a distinct pattern, or voter turnout percentages that decrease with higher education level will reject my hypothesis.</p>
+<h2 id="results">Results</h2>
+<p>To interpret the voting participation variable, or voter turnout, I determined the percent of respondents that voted within each distinct education level. The table below expresses the specific turnout rates, showing a clear increase in each level of education, starting from 53.8% for “Less than a high school” to 92.9% for “Graduate degree.”</p>
 <div class="layout-chunk" data-layout="l-body">
 <table>
 <colgroup>
@@ -1617,12 +1634,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </tbody>
 </table>
 </div>
-<h2 id="results">Results</h2>
-<p>The bar plot below shows a positive correlation between education levels and voter turnout. As survey respondents education level increases, so does the percent of that population that voted. This supports my hypothesis that higher education levels lead to greater voting participation.</p>
+<p>This <strong>bar plot</strong> visualizing the relationship between education level and voter turnout percentages further demonstrates that increase. The visual shows a consistent upward trend in voter percentage as education level increases.</p>
 <div class="layout-chunk" data-layout="l-body">
 <p><img src="index_files/figure-html5/unnamed-chunk-5-1.png" alt="" width="624" /></p>
 </div>
-<p>This regression analyzes the relationship between voter turnout and education levels. The education effect is 0.085 or 8.5% which means that those with higher education are 8.5% more likely to vote.</p>
+<h3 id="linear-regression-model">Linear Regression Model:</h3>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>
 Call:
@@ -1726,7 +1742,12 @@ F-statistic: 346.1 on 1 and 4928 DF,  p-value: &lt; 2.2e-16</code></pre>
 </tbody>
 </table>
 </div>
+<p><strong>Interpretation:</strong></p>
+<p>The results of my linear regression model indicate a statistically significant correlation between education level and voter turnout. This is confirmed by the <strong>p-value of &lt; 2.2e-16 (recorded as 0)</strong>, which means that the likelihood this correlation happened by chance is so small it is nearly zero.
+My main coefficient of interest is the <strong>Education Effect</strong> which is <strong>0.085</strong>. This means that for every increase in one level of education, the probability of a respondent voting increases by 8.5 percentage points. With an <strong>R-squared of 0.066</strong>, we can determine that education level explains 6.6% of voting behavior in this sample.
+Although this interpretation provides highly statistically significant results, we should <strong>not interpret them causally</strong> as there are other factors that must be taken into account.</p>
 <h2 id="conclusion">Conclusion</h2>
+<p>Overall, my results strongly support my hypothesis that higher education levels are positively correlated with voting participation. The data exemplifies an increase in voter turnout as education levels rise, and the regression model confirms a statistically significant increase of 8.5 percentage points for each education level reached. However, there are limitations to this analysis including potential confounding variables such as income, upbringing, overall political interest, etc. These confounders that effect both education level and voting behavior are threats to inference, as well as my removal of voting variable responses that did not fit “Vote” or “Did not Vote.” With more time and resources, I would improve this analysis by incorporating additional variables that may impact voting behavior, creating a more detailed and precise analysis of what factors effect voter turnout in 2024.</p>
 <h2 id="code">Code</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -1756,6 +1777,7 @@ F-statistic: 346.1 on 1 and 4928 DF,  p-value: &lt; 2.2e-16</code></pre>
 <span>    y <span class='op'>=</span> <span class='st'>"Number of Respondents"</span></span>
 <span>  <span class='op'>)</span> <span class='op'>+</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_minimal</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='va'>turnout_graph</span></span>
 <span><span class='va'>voting_summary</span> <span class='op'>&lt;-</span> <span class='va'>edu_voting</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>education</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span></span>
@@ -1794,8 +1816,8 @@ F-statistic: 346.1 on 1 and 4928 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <h3 id="ai-disclosure">AI Disclosure</h3>
-<p>I utilized AI in my inital step of organizing my data.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>I utilized AI throughout my final project to assist with difficult coding chunks and troubleshooting. I used AI in my initial data cleaning, asking specific questions to turn the raw data into variables and condense the dataset. From there, AI served as a tool for fixing errors in my code for visuals and interpretation of results when I was stuck.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

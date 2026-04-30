@@ -74,7 +74,7 @@ voting_summary |>
   knitr::kable(col.names = c ("Education", "Total", "Voted", "Didn't Vote", "Turnout Percent"))
 
 ```
-
+ 
 
 ## Results 
 

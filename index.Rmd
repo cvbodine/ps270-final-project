@@ -11,18 +11,23 @@ output:
 
 ## Introduction
 
-The research question I am studying is: “How do education levels affect voting participation?” I will be using the dataset: American National Election Studies (ANES) 2024 Report which collected data from respondents before and after the presidential election. My hypothesis is that higher education levels lead to greater voting participation due to more knowledge on politics and greater access to important skills. The explanatory variable in this study is education levels which can be measured by different levels ranging from high school diploma to a doctorate degree. The outcome variable is voting participation which can be measured by whether or not individuals voted in recent elections. An observed pattern that would support my hypothesis is that higher education levels correlate with greater voter turnout. A pattern that would disprove my hypothesis would be a correlation between high education and low voter turnout. 
+The research question of this study is: **“How do education levels affect voting participation?”** Studying the relationship between education and voting is incredibly important because it helps us to understand political participation and whose opinions are truly reflected in democracy. Education often provides students with the skills and knowledge needed to register and participate, so this analysis will help determine if the voting process is truly representative of our entire population. Significant discrepancies across education levels could insinuate inequality and misrepresentation.  
 
-```{r}
+My **hypothesis** is that **higher education levels lead to greater voting participation.** This is likely a result of great access to civic skills and more political knowledge. The explanatory/independent variable in this study is education level which can be measured by different levels ranging from high school diploma to a doctorate degree. The outcome/dependent variable is voting participation which can be measured by whether or not individuals voted in recent elections, and turnout percentages can highlight possible correlation. An observed pattern that would support my hypothesis is that higher education levels correlate with greater voter turnout. A pattern that would disprove my hypothesis would be a correlation between high education and low voter turnout.
+
+
+```{r echo=FALSE}
 library(tidyverse)
 edu_voting <- read_csv("~/Downloads/anes_timeseries_2024_csv_20250808/fpdata.csv")
 ```
 
 ## Data
 
-Cleaning the dataset and making a table of the education and voting variables:
+My analysis utilizes the dataset: American National Election Studies (ANES) 2024 Report, which collected data from respondents before and after the presidential election through surveys. The analysis of this study specifically focuses on the subset of demographics and voting behavior. After removing non-responses to my desired variables, the final dataset consists of 4,930 observations. 
 
-```{r}
+Utilizing code to clean and organize the data, I was able to assign the raw numbers to specific variables. The independent variable, Education Level, is an ordinal variable and I organized this numerically on a scale 1-5, with 1 as "Less than high school" and 5 as "Graduate Degree." The dependent variable, Voting Participation, expresses whether or not the respondent voted in the 2024 presidential election. I organized this as a binary variable so 1 represents "voted" and 0 represents if the respondent did not vote.
+
+```{r echo=FALSE}
 edu_voting <- edu_voting |>
   select(education = V241465x, voted = V242095x) |>
   mutate(
@@ -38,6 +43,24 @@ edu_voting <- edu_voting |>
                               "Graduate degree"))
     ) |>
   drop_na()
+```
+
+
+```{r echo = FALSE}
+turnout_graph <- edu_voting
+ggplot(edu_voting, aes(x = factor(voted, labels = c("Did Not Vote", "Voted")))) +
+  geom_bar(fill = "salmon") +
+  labs(
+    title = "Distribution of Voting Participation",
+    x = "Voting Behavior",
+    y = "Number of Respondents"
+  ) +
+  theme_minimal()
+```
+
+The summary table below highlights the specific turnout rates, showing a clear increase in each level of education starting from 53.8% for those with less than a high school education to 92.7% for those with a graduate degree.
+
+```{r echo=FALSE}
 voting_summary <- edu_voting |>
   group_by(education) |>
   summarize(
@@ -53,38 +76,41 @@ voting_summary |>
 ```
 
 
+## Results 
 
-Bar plot data visualization:
+The bar plot below shows a positive correlation between education levels and voter turnout. As survey respondents education level increases, so does the percent of that population that voted. This supports my hypothesis that higher education levels lead to greater voting participation. 
 
-```{r}
-graph <- voting_summary |>
+```{r echo=FALSE}
+result_graph <- voting_summary |>
   ggplot(mapping = aes(x = education, 
-                       y = Turnout_Pct)) + 
+                       y = Turnout_Pct,
+                       fill = education)) + 
   geom_col() +
   labs(
     title = "Education Levels and Voter Turnout",
     x = "Education Level",
     y = "Percent that Voted"
   ) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-graph
+  theme(axis.text.x = element_text(angle = 45, hjust = 1), 
+                                   legend.position = "none")
+result_graph
 ```
-The table and bar graph show a positive correlation between education levels and voter turnout. As survey respondents education level increases, so does the percent of that population that voted. This supports my hypothesis that higher education levels lead to greater voting participation. 
 
 
-## Results 
+This regression analyzes the relationship between voter turnout and education levels. The education effect is 0.085 or 8.5% which means that those with higher education are 8.5% more likely to vote.
 
-```{r}
+```{r echo=FALSE}
 edu.reg <- lm(voted ~ as.numeric(education), data = edu_voting)
 summary(edu.reg)
 ```
-```{r}
+
+```{r echo=FALSE}
 library(broom)
 tidy(edu.reg) |>
   knitr::kable(digits = 3)
 ```
 
-```{r}
+```{r echo=FALSE}
 var_labels <- c("as.numeric(education)" = "Education Effect")
 modelsummary::modelsummary(
   list(edu.reg),
@@ -96,3 +122,11 @@ modelsummary::modelsummary(
 ## Conclusion
 
 
+
+## Code
+```{r print-code, ref.label=knitr::all_labels(), echo = TRUE, eval=FALSE}
+
+```
+
+### AI Disclosure
+I utilized AI in my inital step of organizing my data. 
